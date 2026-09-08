@@ -21,7 +21,7 @@ missing_fields_strategy = "suppress"
 framework = "MITRE ATT&CK"
 
 [[rule.threat.technique]]
-id = "T1074"
+id = "T11274"
 name = "Data Staged"
 reference = "https://attack.mitre.org/techniques/T1074/"
 
