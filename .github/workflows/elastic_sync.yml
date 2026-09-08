@@ -33,4 +33,3 @@ jobs:
             echo "$file was changed"
           done
 
-      - run: python develop/toml_to_json.py
