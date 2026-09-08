@@ -4,7 +4,7 @@ import tomllib
 
 
 url = "https://my-security-project-cc30e1.kb.ap-southeast-1.aws.elastic.cloud/api/detection_engine/rules"
-api_key=os.environ('ELASTIC_API_KEY')
+api_key=os.environ['ELASTIC_API_KEY']
 headers={
    'Authorization': f'ApiKey {api_key}',
    'Content-Type': 'application/json',
