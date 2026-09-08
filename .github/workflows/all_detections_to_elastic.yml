@@ -1,4 +1,4 @@
-name: All Detections to Elastic
+name: Manual Push Detections to Elastic
 
 on: 
   workflow_dispatch:
