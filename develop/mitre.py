@@ -1,6 +1,7 @@
 import requests
 import tomllib
 import os
+import sys
 
 url= "https://raw.githubusercontent.com/mitre/cti/refs/heads/master/enterprise-attack/enterprise-attack.json"
 headers={
@@ -9,7 +10,7 @@ headers={
 
 mitreData = requests.get(url, headers=headers).json()
 mitreMapped = {}
-
+failure=0
 # def getMapping():
 for objects in mitreData['objects']:
     tactics = []
@@ -79,6 +80,7 @@ for file in alert_data:
         # check to ensure MITRE Tactics exist
         if tactic not in mitre_tactic_list:
             print(f"The MITRE Tactic is not valid - file: {file} - tactic: {tactic}")
+            failure = 1
         
         # check to make sure the MITRE Technique Id is valid
         try:
@@ -86,7 +88,7 @@ for file in alert_data:
                 pass
         except KeyError:
             print(f"The MITRE Technique Id is not valid - file: {file} - technique_id: {technique_id}")
-            
+            failure = 1
             
         # check to see if the MITRE TID + name combination is valid
         try:
@@ -94,6 +96,7 @@ for file in alert_data:
             alert_name= line['technique_name']
             if mitre_name != alert_name:
                 print(f"MITRE Technique ID and name mismatch - file: {file} -  expected Name: {mitre_name} - given Name: {alert_name}")
+                failure = 1
         except KeyError:
             pass
         
@@ -105,6 +108,7 @@ for file in alert_data:
                 alert_subtechnique_name= line['subtechnique_name']
                 if mitre_subtechnique_name != alert_subtechnique_name:
                     print(f"MITRE Sub-Technique ID and name mismatch - file: {file} -  expected Name: {mitre_subtechnique_name} - given Name: {alert_subtechnique_name}")
+                    failure = 1
         except KeyError:
             pass
         
@@ -112,7 +116,9 @@ for file in alert_data:
         try:
             if mitreMapped[technique_id]['deprecated'] == True:
                 print(f"MITRE Technique is deprecated - file: {file} - technique_id: {technique_id}")
+                failure = 1
         except KeyError:
             pass
 
-        #print(f"file: {file} - tactic: {tactic} - technique_id: {technique_id} - subtechnique_id: {subtechnique_id}")
+if failure !=0:
+    sys.exit(1)
