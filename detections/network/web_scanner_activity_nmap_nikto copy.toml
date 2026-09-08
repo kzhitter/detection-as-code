@@ -1,3 +1,6 @@
+[metadata]
+creation_date = "2026/09/08"
+
 [rule]
 author = ["KZW"]
 description = """ Detects Nmap user agent strings and Nikto query keywords """
