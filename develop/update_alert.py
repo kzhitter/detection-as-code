@@ -12,51 +12,51 @@ headers={
    
 }
 
-# data=r"""
-
-# """
+changed_files=os.environ["CHANGED_FILES"]
 
 for root,dirs,files in os.walk("detections/"):
     for file in files:
-        data ="{\n"
-        if file.endswith(".toml"):
-            full_path = os.path.join(root, file)
-            with open(full_path, "rb") as toml:
-                alert=tomllib.load(toml)
-                
-                if alert['rule']['type'] == "query":
-                    required_fields = ["author", "name", "description", "type", "query", "severity", "risk_score", "threat", "rule_id"]
-                elif alert['rule']['type'] == "eql": # event correlation alert
-                    required_fields = ["author", "name", "description", "type", "query", "severity", "risk_score", "language", "threat", "rule_id"]
-                elif alert['rule']['type'] == "threshold": # threshold alert
-                    required_fields = ["author", "name", "description", "type", "severity", "risk_score", "threshold", "threat", "rule_id"]
-                else:
-                    print(f"Unsupported rule type found in - full_path: {full_path} - type: {alert['rule']['type']}")
-                    break
-                
-                
-                for field in alert['rule']:
-                    if type(alert['rule'][field]) == list:
-                        data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
+        if file in changed_files:
+            # if "bat_files_observed_in_http_traffic_on_unusual_port.toml" in "detections/network/bat_files_observed_in_http_traffic_on_unusual_port.toml"
+            data ="{\n"
+            if file.endswith(".toml"):
+                full_path = os.path.join(root, file)
+                with open(full_path, "rb") as toml:
+                    alert=tomllib.load(toml)
+                    
+                    if alert['rule']['type'] == "query":
+                        required_fields = ["author", "name", "description", "type", "query", "severity", "risk_score", "threat", "rule_id"]
+                    elif alert['rule']['type'] == "eql": # event correlation alert
+                        required_fields = ["author", "name", "description", "type", "query", "severity", "risk_score", "language", "threat", "rule_id"]
+                    elif alert['rule']['type'] == "threshold": # threshold alert
+                        required_fields = ["author", "name", "description", "type", "severity", "risk_score", "threshold", "threat", "rule_id"]
+                    else:
+                        print(f"Unsupported rule type found in - full_path: {full_path} - type: {alert['rule']['type']}")
+                        break
+                    
+                    
+                    for field in alert['rule']:
+                        if type(alert['rule'][field]) == list:
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
+                            
+                        elif type(alert['rule'][field]) == str:
+                            if field == 'description':
+                                data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"").replace("\\","\\\\") + "\"," + "\n"
+                            elif field == 'query':
+                                data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\\","\\\\").replace("\"","\\\"").replace("\n"," ") + "\"," + "\n"
+                            else:
+                                data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"") + "\"," + "\n"
                         
-                    elif type(alert['rule'][field]) == str:
-                        if field == 'description':
-                            data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"").replace("\\","\\\\") + "\"," + "\n"
-                        elif field == 'query':
-                            data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\\","\\\\").replace("\"","\\\"").replace("\n"," ") + "\"," + "\n"
-                        else:
-                            data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"") + "\"," + "\n"
+                        elif type(alert['rule'][field]) == int:
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]) + "," + "\n"
+                        
+                        elif type(alert['rule'][field]) == dict:
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
+                    data += "  \"enabled\": true\n}"
                     
-                    elif type(alert['rule'][field]) == int:
-                        data += "  " + "\"" + field + "\": " + str(alert['rule'][field]) + "," + "\n"
+                    rule_id = alert['rule']['rule_id']
                     
-                    elif type(alert['rule'][field]) == dict:
-                        data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
-                data += "  \"enabled\": true\n}"
-                
-                rule_id = alert['rule']['rule_id']
-                
-                url= url + "?rule_id=" + rule_id
-                
-                elastic_data= requests.put(url, headers=headers, data=data).json()
-                print(elastic_data)
+                    url= url + "?rule_id=" + rule_id
+                    
+                    elastic_data= requests.put(url, headers=headers, data=data).json()
+                    print(elastic_data)
