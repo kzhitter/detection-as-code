@@ -2,7 +2,7 @@
 author = ["KZW"]
 description = """ Using Zeek http data, we are looking at .bat file extensions on any destination port that is not 80. """
 from = "now-10m" 
-name = "Example File"
+name = "NEQ! Example File"
 risk_score = 30
 severity = "low"
 type = "query"
