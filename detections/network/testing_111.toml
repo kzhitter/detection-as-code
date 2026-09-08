@@ -2,11 +2,11 @@
 author = ["KZW"]
 description = """ Detects Nmap user agent strings and Nikto query keywords """
 from = "now-6m" 
-name = "Web Scanner Activity - Nmap and Nikto"
+name = "testing_111"
 risk_score = 10
 severity = "low"
 type = "query"
-rule_id = "00000000-0000-0000-0000-000000000010"
+rule_id = "00000000-0000-0000-0000-000000000050"
 
 query = '''
 event.dataset :"zeek.http" and url.query:*Nikto* OR url.original:*Nikto* OR user_agent.original :*Nmap*
