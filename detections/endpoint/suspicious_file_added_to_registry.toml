@@ -1,0 +1,36 @@
+[rule]
+author = ["KZW"]
+description = """ The alert look for .ps1 file added to autorun on bootup locations in the windows registry. """
+from = "now-10m" 
+name = "Suspicious File added to Registry"
+risk_score = 50
+severity = "medium"
+type = "query"
+rule_id = "00000000-0000-0000-0000-000000000008"
+
+query = '''
+event.dataset:"windows.sysmon_operational" and event.action: "RegistryEvent (Value Set)" and registry.path : *Microsoft\\Windows\\CurrentVersion\\Run* and registry.data.strings: *.ps1
+'''
+
+[rule.alert_suppression]
+group_by = ["host.name"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1547"
+name = "Boot or Logon Autostart Execution"
+reference = "https://attack.mitre.org/techniques/T1547/"
+
+[[rule.threat.technique.subtechnique]]
+id = "T1547.001"
+name = "Registry Run Keys / Startup Folder"
+reference = "https://attack.mitre.org/techniques/T1547/001/"
+
+[rule.threat.tactic]
+id = "TA0003"
+name = "Persistence"
+reference = "https://attack.mitre.org/tactics/TA0003/"

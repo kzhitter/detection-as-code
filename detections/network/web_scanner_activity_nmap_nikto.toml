@@ -1,0 +1,35 @@
+[rule]
+author = ["KZW"]
+description = """ Detects Nmap user agent strings and Nikto query keywords """
+from = "now-6m" 
+name = "Web Scanner Activity - Nmap and Nikto"
+risk_score = 25
+severity = "low"
+type = "query"
+rule_id = "00000000-0000-0000-0000-000000000010"
+
+query = '''
+event.dataset :"zeek.http" and url.query:*Nikto* OR url.original:*Nikto* OR user_agent.original :*Nmap*
+'''
+
+[rule.alert_suppression]
+group_by = ["destination.ip"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1046"
+name = "Network Service Discovery"
+reference = "https://attack.mitre.org/techniques/T1046/"
+
+[rule.threat.tactic]
+id = "TA0007"
+name = "Discovery"
+reference = "https://attack.mitre.org/tactics/TA0007/"
+
+
+

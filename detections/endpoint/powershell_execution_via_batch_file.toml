@@ -1,0 +1,36 @@
+[rule]
+author = ["KZW"]
+description = """ monitoring powershell commands executed via batch file """
+from = "now-10m" 
+name = "Powershell Execution via Batch File"
+risk_score = 25
+severity = "low"
+type = "query"
+rule_id = "00000000-0000-0000-0000-000000000006"
+
+query = '''
+event.dataset: "windows.sysmon_operational"  and process.command_line :powershell* and process.parent.command_line :*bat* and process.parent.name:"cmd.exe"
+'''
+
+[rule.alert_suppression]
+group_by = ["host.name"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1059"
+name = "Command and Scripting Interpreter"
+reference = "https://attack.mitre.org/techniques/T1059/"
+
+[[rule.threat.technique.subtechnique]]
+id = "T1059.001"
+name = "PowerShell"
+reference = "https://attack.mitre.org/techniques/T1059/001/"
+
+[rule.threat.tactic]
+id = "TA0002"
+name = "Execution"
+reference = "https://attack.mitre.org/tactics/TA0002/"

@@ -1,0 +1,31 @@
+[rule]
+author = ["KZW"]
+description = """ The alert looks for zip files being sent over FTP """
+from = "now-10m" 
+name = "Data Exfiltration Observed via FTP"
+risk_score = 25
+severity = "low"
+type = "query"
+rule_id = "00000000-0000-0000-0000-000000000003"
+
+query = '''
+event.dataset :"zeek.ftp" and event.action : STOR and zeek.ftp.arg : *.zip
+'''
+
+[rule.alert_suppression]
+group_by = ["destination.address"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1020"
+name = "Automated Exfiltration"
+reference = "https://attack.mitre.org/techniques/T1020/"
+
+[rule.threat.tactic]
+id = "TA0010"
+name = "Exfiltration"
+reference = "https://attack.mitre.org/tactics/TA0010/"

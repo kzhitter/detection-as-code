@@ -1,0 +1,41 @@
+[rule]
+author = ["KZW"]
+description = """ The alert looks for both specific files and file extensions written to a file path containing Windows\\Temp\\ """
+from = "now-10m" 
+name = "Suspicious File Written to Temp Directory"
+risk_score = 25
+severity = "low"
+type = "query"
+rule_id = "00000000-0000-0000-0000-000000000009"
+
+query = '''
+event.dataset:"endpoint.events.file" and event.action:(creation or overwrite) and file.name:(History or *.txt or *.ps1) and file.path:*Windows\\Temp\\* and process.name:"powershell.exe"
+'''
+
+[rule.alert_suppression]
+group_by = ["host.name"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1082"
+name = "System Information Discovery"
+reference = "https://attack.mitre.org/techniques/T1082/"
+
+[[rule.threat.technique]]
+id = "T1217"
+name = "Browser Information Discovery"
+reference = "https://attack.mitre.org/techniques/T1217/"
+
+[[rule.threat.technique]]
+id = "T1082"
+name = "System Information Discovery"
+reference = "https://attack.mitre.org/techniques/T1082/"
+
+[rule.threat.tactic]
+id = "TA0007"
+name = "Discovery"
+reference = "https://attack.mitre.org/tactics/TA0007/"
