@@ -1,7 +1,9 @@
 name: TOML/Mitre Validation
 
 on:
-  push: 
+  push:
+    paths:
+      - "**.toml"
   workflow_dispatch:
 
 
