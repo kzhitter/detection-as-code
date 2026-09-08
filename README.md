@@ -1,5 +1,3 @@
 # detection-as-code
 
-[![Metrics](https://github.com/kzhitter/detection-as-code/actions/workflows/metrics.yml/badge.svg)](https://github.com/kzhitter/detection-as-code/actions/workflows/metrics.yml)
-
-[![Updating Detections](https://github.com/kzhitter/detection-as-code/actions/workflows/elastic_sync.yml/badge.svg)](https://github.com/kzhitter/detection-as-code/actions/workflows/elastic_sync.yml)
+[![Metrics](https://github.com/kzhitter/detection-as-code/actions/workflows/metrics.yml/badge.svg)](https://github.com/kzhitter/detection-as-code/actions/workflows/metrics.yml)[![Updating Detections](https://github.com/kzhitter/detection-as-code/actions/workflows/elastic_sync.yml/badge.svg)](https://github.com/kzhitter/detection-as-code/actions/workflows/elastic_sync.yml)[![TOML/Mitre Validation](https://github.com/kzhitter/detection-as-code/actions/workflows/tom_mitre_validation.yml/badge.svg)](https://github.com/kzhitter/detection-as-code/actions/workflows/tom_mitre_validation.yml)
