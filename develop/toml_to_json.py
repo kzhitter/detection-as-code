@@ -16,7 +16,7 @@ headers={
 
 # """
 
-for root,dirs,files in os.walk("detections"):
+for root,dirs,files in os.walk("detections/"):
     for file in files:
         data ="{\n"
         if file.endswith(".toml"):
