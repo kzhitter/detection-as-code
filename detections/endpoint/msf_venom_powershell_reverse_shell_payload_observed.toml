@@ -1,3 +1,6 @@
+[metadata]
+creation_date = "2026/09/08"
+
 [rule]
 author = ["KZW"]
 description = """ The alert triggers via sysmon data on a string that msfvenom used in their powershell reverse shell payload, out of the box. """

@@ -1,3 +1,6 @@
+[metadata]
+creation_date = "2026/09/08"
+
 [rule]
 author = ["KZW"]
 description = """ The alert look for .ps1 file added to autorun on bootup locations in the windows registry. """

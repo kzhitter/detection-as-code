@@ -1,3 +1,6 @@
+[metadata]
+creation_date = "2026/09/08"
+
 [rule]
 author = ["KZW"]
 description = """ using sysmon data, we are triggering on Powershell logs where iwr or invoke-webrequest and .bat strings are observed """
