@@ -3,11 +3,8 @@ author = ["KZW"]
 description = """ Using Zeek http data, we are looking at .bat file extensions on any destination port that is not 80. """
 from = "now-10m" 
 name = "Bat files observed in HTTP traffic on Unusual Port"
-<<<<<<< Updated upstream
-risk_score = 30
-=======
+
 risk_score = 35
->>>>>>> Stashed changes
 severity = "low"
 type = "query"
 rule_id = "00000000-0000-0000-0000-000000000001"
