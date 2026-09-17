@@ -69,7 +69,7 @@ for root,dirs,files in os.walk("detections/"):
                         
                 
                 
-mitre_tactic_list = ["none","reconnaissance", "resource development", "initial access", "execution", "persistence", "privilege escalation", "defense evasion", "credential access", "discovery", "lateral movement", "collection", "command and control", "exfiltration", "impact"]
+mitre_tactic_list = ["none","reconnaissance", "resource development", "initial access", "execution", "persistence", "privilege escalation", "stealth", "defense impairment", "credential access", "discovery", "lateral movement", "collection", "command and control", "exfiltration", "impact"]
                 
 for file in alert_data:
     for line in alert_data[file]:
