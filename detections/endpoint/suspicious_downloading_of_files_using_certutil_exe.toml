@@ -1,0 +1,39 @@
+[metadata]
+creation_date = "2026/09/17"
+
+
+[rule]
+author = ["KZW"]
+description = """ This rule detect downloading of files using certutil commands with certain switches. 
+ 
+Note: Limitation =casing not fully enumerated for -urlcache/-verifyctl) """
+from = "now-6m" 
+name = "Suspicious Downloading of files using certutil.exe"
+risk_score = 50
+severity = "medium"
+type = "query"
+
+rule_id = "00000000-0000-0000-0000-000000000011"
+
+
+query = '''
+event.dataset:"windows.sysmon_operational" AND process.name:certutil.exe  AND  process.args : ( "-urlcache" OR "-verifyctl" OR ("-url"  OR "-URL"  OR "-Url")) AND NOT process.args : *\:*\:*
+'''
+
+[rule.alert_suppression]
+group_by = ["host.name"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1105"
+name = "Ingress Tool Transfer"
+reference = "https://attack.mitre.org/techniques/T1105/"
+
+[rule.threat.tactic]
+id = "TA0011"
+name = "Command and Control"
+reference = "https://attack.mitre.org/tactics/TA0011/"

@@ -34,7 +34,11 @@ for root, dirs, files in os.walk("detections/"):
             full_path = os.path.join(root, file)
             with open(full_path,"rb") as toml:
                 alert = tomllib.load(toml)
-                date = alert['metadata']['creation_date']
+                metadata = alert.get('metadata', {})
+                date = metadata.get('creation_date')
+                if not date:
+                    print(f"Skipping {full_path}: missing metadata.creation_date")
+                    continue
                 name = alert['rule']['name']
                 author = alert['rule']['author']
                 risk_score = alert['rule']['risk_score']
@@ -79,6 +83,7 @@ for root, dirs, files in os.walk("detections/"):
 output_path = "metrics/latestdetections.md"
 separator = "; "
 
+os.makedirs(os.path.dirname(output_path), exist_ok=True)
 outF = open(output_path, "w")
 outF.write("# Detection Report\n")
 
