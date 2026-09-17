@@ -1,3 +1,7 @@
+[metadata]
+creation_date = "2026/09/17"
+
+
 [rule]
 author = ["KZW"]
 description = """ Download file from Internet and save it in an NTFS Alternate Data Stream """
@@ -6,7 +10,7 @@ name = "Suspicious download of file using certutil and saving it as ADS"
 risk_score = 75
 severity = "high"
 type = "query"
-creation_date="17/9/2026"
+
 rule_id = "00000000-0000-0000-0000-000000000013"
 
 query = '''

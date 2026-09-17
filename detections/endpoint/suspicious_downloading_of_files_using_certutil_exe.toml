@@ -1,3 +1,7 @@
+[metadata]
+creation_date = "2026/09/17"
+
+
 [rule]
 author = ["KZW"]
 description = """ This rule detect downloading of files using certutil commands with certain switches. 
@@ -8,7 +12,7 @@ name = "Suspicious Downloading of files using certutil.exe"
 risk_score = 50
 severity = "medium"
 type = "query"
-creation_date="17/9/2026"
+
 rule_id = "00000000-0000-0000-0000-000000000011"
 
 
