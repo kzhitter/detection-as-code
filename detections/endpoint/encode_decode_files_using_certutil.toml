@@ -8,6 +8,8 @@ name = "Encode/Decode files using certutil"
 risk_score = 50
 severity = "medium"
 type = "query"
+creation_date="17/9/2026"
+rule_id = "00000000-0000-0000-0000-000000000012"
 
 query = '''
 event.dataset:"windows.sysmon_operational" AND process.name:certutil.exe AND process.args : ( "-decode" OR "-decodehex" OR "-encode")

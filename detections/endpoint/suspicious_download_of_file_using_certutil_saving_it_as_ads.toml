@@ -6,6 +6,8 @@ name = "Suspicious download of file using certutil and saving it as ADS"
 risk_score = 75
 severity = "high"
 type = "query"
+creation_date="17/9/2026"
+rule_id = "00000000-0000-0000-0000-000000000013"
 
 query = '''
 event.dataset:"windows.sysmon_operational" AND process.name:certutil.exe AND
