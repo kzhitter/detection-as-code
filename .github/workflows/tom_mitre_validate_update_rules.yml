@@ -1,0 +1,34 @@
+name: TOML Validation and Elastic Sync
+
+on:
+  push:
+    paths:
+      - "**.toml"
+  workflow_dispatch:
+
+jobs:
+  toml-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python develop/validation.py
+      - run: python develop/mitre.py
+
+  elastic-detections-update:
+    needs: toml-validation
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      ELASTIC_API_KEY: ${{ secrets.ELASTIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+      - name: Run Update Script
+        env:
+          ELASTIC_API_KEY: ${{ secrets.ELASTIC_API_KEY }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: python develop/update_alert.py
