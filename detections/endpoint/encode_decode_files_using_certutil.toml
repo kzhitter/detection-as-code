@@ -1,0 +1,42 @@
+[rule]
+author = ["KZW"]
+description = """ Encode/Decode files  using certutil to evade defensive measures.
+
+Note: limitation = (casing not fully enumerated for the encode/decode switches, might consider EDR datastreams set or nomalize the logs at ingestions) """
+from = "now-6m" 
+name = "Encode/Decode files using certutil"
+risk_score = 50
+severity = "medium"
+type = "query"
+
+query = '''
+event.dataset:"windows.sysmon_operational" AND process.name:certutil.exe AND process.args : ( "-decode" OR "-decodehex" OR "-encode")
+'''
+
+[rule.alert_suppression]
+group_by = ["host.hostname"]
+duration = {value = 5, unit = "m"}
+missing_fields_strategy = "suppress"
+
+[[rule.threat]] 
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1027"
+name = "Obfuscated Files or Information"
+reference = "https://attack.mitre.org/techniques/T1027/"
+
+[[rule.threat.technique.subtechnique]]
+id = "T1027.013"
+name = "Encrypted/Encoded File"
+reference = "https://attack.mitre.org/techniques/T1027/013/"
+
+[[rule.threat.technique]]
+id = "T1140"
+name = "Deobfuscate/Decode Files or Information"
+reference = "https://attack.mitre.org/techniques/T1140/"
+
+[rule.threat.tactic]
+id = "TA0005"
+name = "Stealth"
+reference = "https://attack.mitre.org/tactics/TA0005/"
