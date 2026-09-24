@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ELASTIC_API_KEY: ${{ secrets.ELASTIC_API_KEY }}
+      ELASTIC_URL: ${{ secrets.ELASTIC_URL }}
     steps:
       - uses: actions/checkout@v4
         with:
