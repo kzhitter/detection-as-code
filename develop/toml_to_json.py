@@ -3,7 +3,7 @@ import os
 import tomllib
 
 
-url = 'ELASTIC_URL'
+url = os.environ['ELASTIC_URL']
 api_key=os.environ['ELASTIC_API_KEY']
 headers={
    'Authorization': f'ApiKey {api_key}',
