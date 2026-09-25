@@ -3,7 +3,7 @@ import os
 import tomllib
 
 
-url = "https://my-security-project-cc30e1.kb.ap-southeast-1.aws.elastic.cloud/api/detection_engine/rules"
+url = os.environ['ELASTIC_URL']
 api_key=os.environ['ELASTIC_API_KEY']
 headers={
    'Authorization': f'ApiKey {api_key}',
