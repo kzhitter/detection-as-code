@@ -8,7 +8,7 @@ description = """ Encode/Decode files  using certutil to evade defensive measure
 
 Note: limitation = (casing not fully enumerated for the encode/decode switches, might consider EDR datastreams set or nomalize the logs at ingestions) """
 from = "now-6m" 
-#name = "Encode/Decode files using certutil"
+name = "Encode/Decode files using certutil"
 risk_score = 50
 severity = "medium"
 type = "query"
