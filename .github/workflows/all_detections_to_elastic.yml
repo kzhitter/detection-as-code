@@ -6,7 +6,7 @@ on:
 
 jobs:
   elastic-detections-all:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, elastic-local]
     env:
       ELASTIC_API_KEY: ${{ secrets.ELASTIC_API_KEY}}
       ELASTIC_URL: ${{ secrets.ELASTIC_URL }}
