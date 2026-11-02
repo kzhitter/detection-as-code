@@ -7,7 +7,7 @@ description = """ The alert look for .zip files being created in a file path con
 from = "now-10m" 
 name = "Data archive for potential exfiltration"
 risk_score = 25
-severity = "low"
+severity = "high"
 type = "query"
 rule_id = "00000000-0000-0000-0000-000000000002"
 
